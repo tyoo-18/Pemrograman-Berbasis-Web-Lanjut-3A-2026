@@ -40,10 +40,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return redirect()->route('siswa.dashboard');
     })->name('dashboard');
 
-    // ==================== FITUR ADMIN & PETUGAS (CRUD BUKU) ====================
-    Route::middleware(['role:admin|petugas'])->prefix('kelola')->name('kelola.')->group(function () {
-        Route::resource('buku', BukuWebController::class);
-    });
+    Route::middleware(['can:kelola-buku'])
+        ->prefix('kelola')
+        ->name('kelola.')
+        ->group(function () {
+            Route::resource('buku', BukuWebController::class);
+        });
 
     // ==================== FITUR ADMIN ====================
     Route::middleware(['role:admin'])->prefix('admin')->name('admin.')->group(function () {

@@ -100,24 +100,17 @@
             untuk membaca informasi atau melakukan peminjaman.
         </p>
 
-        <!-- Tombol khusus Admin dan Petugas -->
-        @auth
-        @if(auth()->user()->hasRole('admin|petugas'))
-        <div class="action-container">
+        @can('kelola-buku')
 
-            <a href="{{ route('kelola.buku.create') }}"
-                class="btn btn-success">
-                + Tambah Buku Baru
-            </a>
+        <a href="{{ route('kelola.buku.create') }}">
+            Tambah Buku Baru
+        </a>
 
-            <a href="{{ route('kelola.buku.index') }}"
-                class="btn btn-info">
-                Buka Panel Kelola Buku (CRUD)
-            </a>
+        <a href="{{ route('kelola.buku.index') }}">
+            Kelola Buku
+        </a>
 
-        </div>
-        @endif
-        @endauth
+        @endcan
 
         <table>
             <thead>
