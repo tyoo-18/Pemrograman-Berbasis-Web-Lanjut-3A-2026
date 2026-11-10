@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Buku;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\PeminjamanController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -24,7 +25,13 @@ Route::middleware('auth')->get(
     [BukuWebController::class, 'destroy']
 );
 
+Route::middleware('auth')->get(
+    '/peminjaman/{id}',
+    [PeminjamanController::class, 'show']
+);
+
 Route::middleware(['auth', 'verified'])->group(function () {
+
 
     // Redirect Dashboard Otomatis Sesuai Role
     Route::get('/dashboard', function () {
