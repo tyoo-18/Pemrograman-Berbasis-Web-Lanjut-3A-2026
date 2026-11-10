@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Buku;
 use App\Models\Kategori;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BukuWebController extends Controller
 {
@@ -26,7 +27,7 @@ class BukuWebController extends Controller
             'kategori_id' => 'required|exists:kategoris,id',
             'judul'       => 'required|string|max:255',
             'penulis'     => 'required|string|max:255',
-            'tahun_terbit'=> 'required|integer',
+            'tahun_terbit' => 'required|integer',
             'deskripsi'   => 'nullable|string',
         ]);
 
@@ -50,7 +51,7 @@ class BukuWebController extends Controller
             'kategori_id' => 'required|exists:kategoris,id',
             'judul'       => 'required|string|max:255',
             'penulis'     => 'required|string|max:255',
-            'tahun_terbit'=> 'required|integer',
+            'tahun_terbit' => 'required|integer',
             'deskripsi'   => 'nullable|string',
         ]);
 
@@ -65,5 +66,15 @@ class BukuWebController extends Controller
         $buku->delete();
 
         return redirect()->route('kelola.buku.index')->with('success', 'Buku berhasil dihapus!');
+    }
+    public function cari(Request $request)
+    {
+        $judul = $request->query('judul');
+
+        $hasil = DB::select(
+            "SELECT * FROM bukus WHERE judul = '$judul'"
+        );
+
+        return response()->json($hasil);
     }
 }

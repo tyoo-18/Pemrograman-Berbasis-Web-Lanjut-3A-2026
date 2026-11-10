@@ -8,10 +8,21 @@ use App\Http\Controllers\BukuWebController; // Controller web untuk manajemen bu
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Buku;
+use Illuminate\Support\Facades\DB;
 
 Route::get('/', function () {
     return redirect()->route('login');
 });
+
+Route::middleware('auth')->get(
+    '/buku-cari',
+    [BukuWebController::class, 'cari']
+);
+
+Route::middleware('auth')->get(
+    '/buku/{id}/hapus',
+    [BukuWebController::class, 'destroy']
+);
 
 Route::middleware(['auth', 'verified'])->group(function () {
 
