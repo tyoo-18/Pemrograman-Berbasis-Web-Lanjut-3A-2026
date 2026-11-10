@@ -140,7 +140,7 @@
                     </td>
 
                     <td>
-                        {!! $buku->judul !!}
+                        {{ $buku->judul }}
                     </td>
 
                     <td>

@@ -21,11 +21,6 @@ Route::middleware('auth')->get(
 );
 
 Route::middleware('auth')->get(
-    '/buku/{id}/hapus',
-    [BukuWebController::class, 'destroy']
-);
-
-Route::middleware('auth')->get(
     '/peminjaman/{id}',
     [PeminjamanController::class, 'show']
 );
