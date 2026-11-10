@@ -39,16 +39,18 @@ class SiswaController extends Controller
             'status'         => 'diproses',
         ]);
 
-        return redirect()->route('siswa.riwayat')->with('success', 'Pengajuan peminjaman berhasil dikirim!');
+        return redirect()->route('peminjaman.show')->with('success', 'Pengajuan peminjaman berhasil dikirim!');
     }
 
-    // Riwayat Peminjaman Milik Sendiri
-    public function riwayatPeminjaman()
+    public function riwayatPeminjaman($id)
     {
-        $riwayats = Peminjaman::with('buku')
-            ->where('user_id', Auth::id()) // Memastikan hanya mengambil data milik pengguna yang login
-            ->latest()
-            ->get();
+        // Pastikan siswa hanya bisa melihat riwayat miliknya sendiri
+        if (Auth::id() != $id) {
+            abort(403);
+        }
+
+        // Ambil data peminjaman berdasarkan user_id yang dikirim dari URL
+        $riwayats = Peminjaman::with('buku')->where('user_id', $id)->get();
 
         return view('siswa.riwayat', compact('riwayats'));
     }

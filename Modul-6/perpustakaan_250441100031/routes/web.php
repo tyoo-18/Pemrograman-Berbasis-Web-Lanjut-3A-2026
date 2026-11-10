@@ -15,17 +15,11 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
-Route::middleware('auth')->get(
-    '/buku-cari',
-    [BukuWebController::class, 'cari']
-);
 
-Route::middleware('auth')->get(
-    '/peminjaman/{id}',
-    [PeminjamanController::class, 'show']
-);
+
 
 Route::middleware(['auth', 'verified'])->group(function () {
+
 
 
     // Redirect Dashboard Otomatis Sesuai Role
@@ -62,11 +56,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::patch('/peminjaman/{id}', [PetugasController::class, 'updateStatusPeminjaman'])->name('peminjaman.updateStatus');
     });
 
-    // ==================== FITUR SISWA (PINJAM BUKU) ====================
     Route::middleware(['role:siswa'])->prefix('siswa')->name('siswa.')->group(function () {
         Route::get('/dashboard', [SiswaController::class, 'dashboard'])->name('dashboard');
         Route::post('/peminjaman/ajukan/{buku_id}', [SiswaController::class, 'ajukanPeminjaman'])->name('peminjaman.ajukan');
-        Route::get('/riwayat', [SiswaController::class, 'riwayatPeminjaman'])->name('riwayat');
+
+        // Ubah rute ini agar menerima parameter id (contoh: /siswa/{id}/riwayat)
+        Route::get('/{id}/riwayat', [SiswaController::class, 'riwayatPeminjaman'])->name('riwayat');
     });
 
     Route::get('/buku', function () {
@@ -84,6 +79,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::middleware('auth')->get(
+        '/buku-cari',
+        [BukuWebController::class, 'cari']
+    );
+
+    Route::middleware('auth')->get(
+        '/peminjaman/{id}',
+        [PeminjamanController::class, 'show']
+    )->name('peminjaman.show');
 });
 
 require __DIR__ . '/auth.php';
