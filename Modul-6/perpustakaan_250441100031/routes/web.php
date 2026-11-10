@@ -7,6 +7,7 @@ use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\BukuWebController; // Controller web untuk manajemen buku admin/petugas
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Buku;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -53,9 +54,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/riwayat', [SiswaController::class, 'riwayatPeminjaman'])->name('riwayat');
     });
 
-    // ==================== LIHAT BUKU & DETAIL BERDASARKAN ID (SEMUA ROLE) ====================
     Route::get('/buku', function () {
-        return view('buku.index'); // Halaman daftar buku fetch API
+        $bukus = Buku::with('kategori')->get();
+
+        return view('buku.index', compact('bukus'));
     })->name('buku.index');
 
     Route::get('/buku/{id}', function ($id) {
