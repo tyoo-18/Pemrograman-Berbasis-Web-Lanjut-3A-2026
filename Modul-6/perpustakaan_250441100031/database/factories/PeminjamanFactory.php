@@ -14,7 +14,7 @@ class PeminjamanFactory extends Factory
     public function definition(): array
     {
         return [
-            'anggota_id' => Anggota::inRandomOrder()->first()->id ?? Anggota::factory(),
+            'user_id' => Anggota::inRandomOrder()->first()->id ?? Anggota::factory(),
             'buku_id' => Buku::inRandomOrder()->first()->id ?? Buku::factory(),
             'tanggal_pinjam' => fake()->date(),
             'tanggal_kembali' => fake()->optional(0.7)->date(),

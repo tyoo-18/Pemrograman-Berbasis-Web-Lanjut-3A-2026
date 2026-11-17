@@ -79,7 +79,7 @@ class RolePermissionSeeder extends Seeder
             ['email' => 'admin@perpus.com'],
             [
                 'name' => 'Administrator',
-                'password' => Hash::make('password'),
+                'password' => Hash::make('admin123'),
             ]
         );
         $admin->assignRole($roleAdmin);

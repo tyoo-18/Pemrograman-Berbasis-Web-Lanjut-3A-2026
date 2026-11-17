@@ -15,7 +15,9 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
-
+Route::get('/tes-error', function () {
+    throw new \RuntimeException('Uji coba error sistem');
+});
 
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -92,3 +94,4 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 require __DIR__ . '/auth.php';
+
